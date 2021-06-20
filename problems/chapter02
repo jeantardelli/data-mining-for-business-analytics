@@ -1,0 +1,108 @@
+1. Assuming that data mining techniques are to be used in the following cases,
+   identify whether the task required is supervised or unsupervised learning.
+
+a. Deciding whether to issue a loan to an applicant based on demographic and
+   financial data (with reference to a database of similar data on prior customers).
+A. Supervised
+
+b. In an online bookstore, making recommendations to customers concerning additional
+   items to buy based on the buying patterns in prior transactions.
+A. Unsupervised
+
+c. Identifying a network data packet as dangerous (virus, hacker attack) based on
+   comparison to other packets whose threat status is known.
+A. Supervised  
+
+d. Identifying segments of similar customers.
+A. Unsupervised
+
+e. Predicting whether a company will go bankrupt based on comparing its financial
+   data to those of similar bankrupt and nonbankrupt firms.
+A. Supervised
+
+f. Estimating the repair time required for an aircraft based on a trouble ticket.
+A. Supervised
+
+g. Automated sorting of mail by zip code scanning.
+A. Unsupervised
+
+h. Printing of custom discount coupons at the conclusion of a grocery store
+   checkout based on what you just bought and what others have bought previously.
+A. Supervised
+
+2. Describe the difference in roles assumed by the validation partition and the test partition
+A. 
+   Validation Partition: The validation partition (sometimes called the test partition) is used to assess the predictive performance
+                         of each model so that you can compare models and choose the best one. In some algorithms (e.g., classification
+                         and regression trees, k-nearest neighbors), the validation partition may be used in an automated fashion to
+                         tune and improve the model.
+   Test Partition: The test partition (sometimes called the holdout or evaluation partition) is used to assess the performance of the
+                   chosen model with new data.
+
+  Why is that?
+  When we use the validation data to assess multiple models and then choose the model that performs best with the validation data,
+  we again encounter another (lesser) facet of the overfitting problem—chance aspects of the validation data that happen to match
+  the chosen model better than they match other models. In other words, by using the validation data to choose one of several models,
+  the performance of the chosen model on the validation data will be overly optimistic
+
+3. Consider the sample from a database of credit applicants in Table 2.16. Comment on the likelihood
+that it was sampled randomly, and whether it is likely to be a useful sample.
+A. It is not likely that this sample was taken randomly as the records were taken by the 8th element (column OBS). Such methodology might
+   introduce bias in the sample - though, apparently, other columns appear to have random values.
+   To say if this sample might be useful we need more information about the application details, if this methodology assures an adequate
+   number of reponses of "sucess" cases, this could be useful (although unlikely it will, we never know);
+
+4. Consider the sample from a bank database shown in Table 2.17; it was selected randomly from a larger database to be the training set.
+   Personal Loan indicates whether a solicitation for a personal loan was accepted and is the response variable. A campaign is planned for
+   a similar solicitation in the future and the bank is looking for a model that will identify likely responders. Examine the data carefully
+   and indicate what your next step would be. 
+A. Assuming that all the steps previous to the data partition were followed (explore, clean, data reduction, etc), the next steps would be:
+   I. Choose the data mining techniques to be used (in this case, classification).
+   II. Use algorithms to perform the task: This is typically an iterative process—trying multiple variants, and often using multiple variants
+       of the same algorithm (choosing different variables or settings within the algorithm). Where appropriate, feedback from the algorithm’s
+       performance on validation data is used to refine the settings.
+   III. Interpret the results of the algorithms: This involves making a choice as to the best algorithm to deploy, and where possible, testing
+        the final choice on the test data to get an idea as to how well it
+        will perform.
+   IV. Deploy the model: This step involves integrating the model into operational systems and running it
+       on real records to produce decisions or actions.
+
+5. Using the concept of overfitting, explain why when a model is fit to training data, zero error with
+   those data is not necessarily good.
+A. A basic purpose of building a model is to represent relationships among variables in such a way that this representation will do a
+   good job of predicting future outcome values on the basis of future predictor values. Of course, we want the model to do a good job
+   of describing the data we have, but we are more interested in its performance with future data. Instead, if we devised a complex
+   function that fit the data perfectly (overfitting), we end up modeling some variation in the data that is nothing more than chance
+   variation, mistreating the noise in the data as if it were a signal. Such result will not perform well when predicting unseen data.
+
+6. In fitting a model to classify prospects as purchasers or nonpurchasers, a certain company drew the training data from internal data
+   that include demographic and purchase information. Future data to be classified will be lists purchased from other sources, with
+   demographic (but not purchase) data included. It was found that “refund issued” was a useful predictor in the training data. Why is this
+   not an appropriate variable to include in the model?
+A. Such attribute could be known only when a purchase is done, so it won't be able to use it when predicting if a purchase is about to happen.
+   This is kind of phenomenon is called data leak (or leakage - the use of information in the model training process which would not be expected
+   to be available at prediction time, causing the predictive scores (metrics) to overestimate the model's utility when run in a production env.
+
+7. A dataset has 1000 records and 50 variables with 5% of the values missing, spread randomly throughout the records and variables. An analyst
+   decides to remove records with missing values. About how many records would you expect to be removed?
+A. p = 0.95 ^ 50 = 0.076 (7%)
+   r = 1000 * 0.076 = 76 records
+
+8. Normalize the data in Table 2.18, showing calculations.
+A. See file 'chapter02_normalization_euclidian_distances.py'
+
+9. Statistical distance between records can be measured in several ways. Consider Euclidean distance, measured as the square root of the sum of
+   the squared differences. Can normalizing the data change which two records are farthest from each other in terms of Euclidean distance?
+A. Yes, the normalized squared euclidean distance gives the squared distance between two vectors where there lengths have been scaled to have unit norm.
+   This is helpful when the direction of the vector is meaningful but the magnitude is not. It's not related to Mahalanobis distance.
+   See file 'chapter02_normalization_euclidian_distances.py' to see the results
+
+
+10. Two models are applied to a dataset that has been partitioned. Model A is considerably more accurate than model B on the training data,
+    but slightly less accurate than model B on the validation data. Which model are you more likely to consider for final deployment?
+A. Model B should be deployed.
+   Explanation:
+   (a) I would deploy the model that does well on generalizing well on validation data and does considerably well on training data.
+       Hence, Model B should be deployed because it has less BIAS and the problem of overfitting the training set is evaded.
+
+   (b) Model A does well on the training dataset and not very well on test/validation dataset because it has OVERFITTED the training set.
