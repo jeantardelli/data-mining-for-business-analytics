@@ -5,3 +5,4 @@ jupyter_contrib_nbextensions
 jupyter_nbextensions_configurator
 sklearn
 matplotlib
+seaborn
