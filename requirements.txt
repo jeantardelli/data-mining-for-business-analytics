@@ -6,3 +6,7 @@ jupyter_nbextensions_configurator
 sklearn
 matplotlib
 seaborn
+networkx
+squarify
+gmaps
+cartopy
