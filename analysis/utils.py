@@ -3,10 +3,58 @@ this module contains some utility functions that is used throughout the book
 """
 import math
 
-from sklearn.metrics import mean_squared_error
+from sklearn.metrics import mean_squared_error, confusion_matrix
+from sklearn.metrics import accuracy_score
 
 import pandas as pd
 import numpy as np
+
+
+def classification_summary(y_true, y_pred, class_names=None):
+    """ 
+    Print a summary of classification performance
+    Function adapted from the https://github.com/gedeck/dmba/blob/master/src/dmba/graphs.py
+
+    Input:
+        y_true: actual values
+        y_pred: predicted values
+        class_names (optional): list of class names
+    """
+    confusion_matrix_ = confusion_matrix(y_true, y_pred)
+    accuracy = accuracy_score(y_true, y_pred)
+
+    print('Confusion Matrix (Accuracy {:.4f})\n'.format(accuracy))
+
+    # Pretty-print confusion matrix
+    cm = confusion_matrix_
+
+    labels = class_names
+    if labels is None:
+        labels = [str(i) for i in range(len(cm))]
+
+    # Convert the confusion matrix and labels to strings
+    cm = [[str(i) for i in row] for row in cm]
+    labels = [str(i) for i in labels]
+
+    # Determine the width for the first label column and the individual cells
+    prediction = 'Prediction'
+    actual = 'Actual'
+    label_width = max(len(s) for s in labels)
+    cm_width = max(max(len(s) for row in cm for s in row), label_width) + 1
+    label_width = max(label_width, len(actual))
+
+    # Construct the format statements
+    fmt1 = '{{:>{}}}'.format(label_width)
+    fmt2 = '{{:>{}}}'.format(cm_width) * len(labels)
+
+    # And print the confusion matrix
+    print(fmt1.format(' ') + ' ' + prediction)
+    print(fmt1.format(actual), end='')
+    print(fmt2.format(*labels))
+
+    for cls, row in zip(labels, cm):
+        print(fmt1.format(cls), end='')
+        print(fmt2.format(*row))
 
 def regression_summary(y_true: pd.DataFrame, y_pred: pd.DataFrame):
     """
