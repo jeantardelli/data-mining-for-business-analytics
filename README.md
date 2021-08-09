@@ -3,5 +3,12 @@
 [![Stars](https://img.shields.io/github/stars/jeantardelli/data-mining-for-business-analytics)]()
 [![MIT License](https://img.shields.io/github/license/jeantardelli/data-mining-for-business-analytics)](LICENSE)
 
-# data-mining-for-business-analytics
+# Data Mining for Business Analytics
 This repository contains the code and my solutions to the [Data Mining for Business Analytics book](https://www.dataminingbook.com/book/python-edition).
+
+# dmutils
+Just run the following to install `dmutils` locally:
+
+```bash
+$ python setup.py install
+```
