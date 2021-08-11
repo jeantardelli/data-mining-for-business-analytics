@@ -1,10 +1,11 @@
 """
 this module contains some utility functions that is used throughout the book
 """
+import itertools
 import math
 
 from sklearn.metrics import mean_squared_error, confusion_matrix
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, r2_score
 
 import pandas as pd
 import numpy as np
@@ -140,3 +141,56 @@ def lift_chart(predicted, title='Decile Lift Chart', label_bars=True, ax=None, f
         for p in ax.patches:
             ax.annotate('{:.1f}'.format(p.get_height()), (p.get_x(), p.get_height() + 0.1))
     return ax
+
+
+def adjusted_r2_score(y_true, y_pred, model):
+    """
+    Calculate the adjusted R2.
+    Function adapted from the https://github.com/gedeck/dmba/blob/master/src/dmba/metric.py
+
+    Input:
+        y_true: actual values
+        y_pred: predicted values
+        model: preditive model
+    """
+    n = len(y_pred)
+    p = len(model.coef_)
+    if p >= n - 1:
+        return 0
+    r2 = r2_score(y_true, y_pred)
+    return 1 - (1 - r2) * (n - 1) / (n - p - 1)
+
+def exhaustive_search(variables, train_model, score_model):
+    """
+    Variable selection using backward elimination.
+    Function adapted from https://github.com/gedeck/dmba/blob/master/src/dmba/featureSelection.py
+
+    Input:
+         variables: complete list of variables to consider in model building
+         train_model: function that returns a fitted model for a give set of variables
+         score_model: function that retuns the score of a model: better models have lower scores
+
+    Returns:
+        List of best subset models for increasing number of variables
+    """
+    # create models of increasing size and determine the best models in each case
+    result = []
+    for nvariables in range(1, len(variables) + 1):
+        best_subset = None
+        best_score = None
+        best_model = None
+        for subset in itertools.combinations(variables, nvariables):
+            subset = list(subset)
+            subset_model = train_model(subset)
+            subset_score = score_model(subset_model, subset)
+            if best_subset is None or best_score > subset_score:
+                best_subset = subset
+                best_score = subset_score
+                best_model = subset_model
+        result.append({
+            "n": nvariables,
+            "variables": best_subset,
+            "score": best_score,
+            "model": best_model
+        })
+    return result
