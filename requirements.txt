@@ -10,3 +10,4 @@ networkx
 squarify
 gmaps
 cartopy
+statsmodels
