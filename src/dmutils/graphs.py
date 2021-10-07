@@ -31,7 +31,7 @@ def gains_chart(gains, color='C0', label=None, ax=None, figsize=None):
     # Add line for random gain
     ax.plot([0, n_total], [0, n_actual], linestyle='--', color='k')
     ax.set_xlabel('# records')
-    ax.set_ylabel('# cumulative gains')
+    ax.set_ylabel('cumulative gains')
     return ax
 
 def lift_chart(predicted, title='Decile Lift Chart', label_bars=True, ax=None, figsize=None):
