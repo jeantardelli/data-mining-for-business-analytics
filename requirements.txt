@@ -11,3 +11,4 @@ squarify
 gmaps
 cartopy
 statsmodels
+pydotplus
