@@ -16,3 +16,4 @@ from .feature_selection import forward_selection, stepwise_selection
 from .metrics import regression_summary, classification_summary
 from .metrics import AIC_score, adjusted_r2_score
 from .graphs import lift_chart, gains_chart
+from .graphs import plot_decision_tree
